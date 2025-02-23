@@ -10,12 +10,6 @@ group = "au.jamal"
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://jitpack.io")
-        metadataSources {
-            artifact() // Ensure it uses JitPack artifacts directly
-        }
-    }
 }
 
 dependencies {
