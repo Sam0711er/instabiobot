@@ -21,9 +21,6 @@ jobs:
       
       - name: Verify Gradle Version
         run: gradle -version
-      
-      - name: Build with Gradle
-        run: gradle build --no-daemon
 
       - name: Install Docker & Docker Compose
         run: |
