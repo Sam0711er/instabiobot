@@ -13,6 +13,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Set up Gradle
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.9-bin.zip
+          unzip -d $HOME/gradle gradle-8.9-bin.zip
+          echo "$HOME/gradle/gradle-8.9/bin" >> $GITHUB_PATH
+      
+      - name: Verify Gradle Version
+        run: gradle -version
+      
+      - name: Build with Gradle
+        run: gradle build --no-daemon
+
       - name: Install Docker & Docker Compose
         run: |
           sudo apt-get update
