@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM gradle:8.5.0-jdk8 AS build
+FROM gradle:8.9.0-jdk8 AS build
 
 COPY --chown=gradle:gradle . /home/gradle/src
 
