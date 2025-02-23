@@ -17,8 +17,24 @@ class InstagramSession() {
     private val credentials = CredentialManager()
     private val twoFactorSecret = System.getenv("IG_2FA_SECRET") // 2FA Secret Key
 
+    fun dismissCookiePopup() {
+    try {
+        val allowCookiesButton = driver.findElement(By.xpath("//button[contains(text(), 'Allow all cookies')]"))
+        allowCookiesButton.click()
+        Log.info("Cookie popup dismissed.")
+    } catch (e: NoSuchElementException) {
+        Log.info("No cookie popup found, continuing...")
+    }
+
+
+}
+
     fun login() {
         session.browser.get(INSTAGRAM_URL)
+        Delay.sleep(5..10)
+
+        dismissCookiePopup() 
+
         Delay.sleep(5..10)
 
         // Enter username & password
