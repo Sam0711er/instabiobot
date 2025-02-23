@@ -21,10 +21,16 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version  # Verify installation
 
+      - name: Check Docker version
+        run: docker --version
+        
+      - name: Check Docker Compose version
+        run: docker-compose --version
+
       - name: Build and run InstaBioBot container
         run: |
           echo "USER=${{ secrets.IG_USER }}" > .env
           echo "PASS=${{ secrets.IG_PASS }}" >> .env
           
           docker-compose build
-          docker-compose up --abort-on-container-exit
+          docker-compose up --abort-on-container-exit || docker-compose logs
