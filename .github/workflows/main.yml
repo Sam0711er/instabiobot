@@ -1,0 +1,25 @@
+name: InstaBioBot Automation
+
+on:
+  schedule:
+    - cron: "0 8,20 * * *"  # Runs at 8 AM & 8 PM UTC
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  update-bio:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and run InstaBioBot container
+        run: |
+          echo "USER=${{ secrets.IG_USERNAME }}" > .env
+          echo "PASS=${{ secrets.IG_PASSWORD }}" >> .env
+          
+          docker-compose build
+          docker-compose up --abort-on-container-exit
