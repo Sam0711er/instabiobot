@@ -23,7 +23,7 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
     implementation("io.github.cdimascio:dotenv-java:2.2.0")
     implementation("org.yaml:snakeyaml:2.2")
-    implementation("dev.turingcomplete:kotlinonetimepassword:0.3.0")
+    implementation("dev.turingcomplete:kotlinonetimepassword:2.4.1")
 }
 
 tasks.test {
