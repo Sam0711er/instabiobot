@@ -10,6 +10,7 @@ group = "au.jamal"
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://jitpack.io") } // Add JitPack repository
 }
 
 dependencies {
