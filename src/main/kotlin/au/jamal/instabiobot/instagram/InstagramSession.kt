@@ -28,9 +28,6 @@ class InstagramSession() {
         }
     }
 
-
-}
-
     fun login() {
         Log.info("💚 Browser session started")
         session.browser.get(INSTAGRAM_URL)
