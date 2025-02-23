@@ -10,7 +10,12 @@ group = "au.jamal"
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://jitpack.io") } // Add JitPack repository
+    maven {
+        url = uri("https://jitpack.io")
+        metadataSources {
+            artifact() // Ensure it uses JitPack artifacts directly
+        }
+    }
 }
 
 dependencies {
@@ -18,7 +23,7 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
     implementation("io.github.cdimascio:dotenv-java:2.2.0")
     implementation("org.yaml:snakeyaml:2.2")
-    implementation("com.github.bastiaanjansen:otp-java:2.1.1")
+    implementation("com.github.bastiaanjansen:otp-java:latest.release")
 }
 
 tasks.test {
