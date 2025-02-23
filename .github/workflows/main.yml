@@ -1,4 +1,4 @@
-name: Instagram Bio Updater
+name: InstaBioBot Automation
 
 on:
   schedule:
@@ -13,16 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.9"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run bio update script
-        env:
-          IG_USERNAME: ${{ secrets.IG_USERNAME }}
-          IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
-        run: python update_bio.py
+      - name: Build and run InstaBioBot container
+        run: |
+          echo "USER=${{ secrets.IG_USERNAME }}" > .env
+          echo "PASS=${{ secrets.IG_PASSWORD }}" >> .env
+          
+          docker-compose build
+          docker-compose up --abort-on-container-exit
