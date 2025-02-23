@@ -1,0 +1,28 @@
+name: Instagram Bio Updater
+
+on:
+  schedule:
+    - cron: "0 8,20 * * *"  # Runs at 8 AM & 8 PM UTC
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  update-bio:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run bio update script
+        env:
+          IG_USERNAME: ${{ secrets.IG_USERNAME }}
+          IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
+        run: python update_bio.py
