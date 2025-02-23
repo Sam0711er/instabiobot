@@ -31,8 +31,8 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
           docker-compose --version  # Verify installation
-      
-          - name: Check Docker version
+
+      - name: Check Docker version
         run: docker --version
         
       - name: Check Docker Compose version
