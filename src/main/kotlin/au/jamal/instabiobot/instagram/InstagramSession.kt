@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
 import java.time.LocalDateTime
-import com.github.bastiaanjansen.otp.GoogleAuthenticator
 
 class InstagramSession() {
 
@@ -72,8 +71,8 @@ class InstagramSession() {
     }
 
     private fun generate2FACode(secretKey: String): String {
-        val generator = GoogleAuthenticator(secretKey)
-        return generator.now()
+     val generator = GoogleAuthenticator(secretKey.toByteArray())
+     return generator.generate()
     }
 
     fun getCurrentBio(): String {
