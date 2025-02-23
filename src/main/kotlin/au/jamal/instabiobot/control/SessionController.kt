@@ -13,38 +13,39 @@ object SessionController {
     val config = ConfigHandler.loadSettings()
 
     private fun bioUpdateHandler(session: InstagramSession) {
-        val restartDate = LocalDate.now().plusDays(config.restartInDays)
-        Log.info("Calculated restart date: $restartDate")
-        var currentBio: String = session.getCurrentBio()
-        while (LocalDate.now() < restartDate) {
-            val generatedBio: String = Bio.buildText()
-            if (currentBio != generatedBio) {
-                session.updateBio(generatedBio)
-                currentBio = generatedBio
-            }
-            Delay.sleep(1..2)
-            failCount = 0
+        Log.info("Starting bio update process...")
+
+        val currentBio: String = session.getCurrentBio()
+        val generatedBio: String = Bio.buildText()
+
+        if (currentBio != generatedBio) {
+            session.updateBio(generatedBio)
+            Log.status("Bio successfully updated: $generatedBio")
+        } else {
+            Log.status("Bio is already up-to-date, no changes made.")
         }
-        Log.status("Restarting session...")
     }
 
     fun mainSessionLoop() {
-        while (failCount < config.failLimit) {
-            val session = InstagramSession()
-            try {
-                session.login()
-                bioUpdateHandler(session)
-            } catch (e: Exception) {
-                Log.error(e)
-                failCount += 1
-                Log.alert("Session failed: $failCount/${config.failLimit}")
-                Delay.sleep(60..120)
-            } finally {
-                session.end()
-            }
+        if (failCount >= config.failLimit) {
+            Log.alert("Fail limit reached, exiting...")
+            exitProcess(0)
         }
-        Log.alert("Exiting main session loop")
-        exitProcess(0)
-    }
 
+        val session = InstagramSession()
+        try {
+            session.login()
+            bioUpdateHandler(session)
+        } catch (e: Exception) {
+            Log.error(e)
+            failCount += 1
+            Log.alert("Session failed: $failCount/${config.failLimit}")
+            Delay.sleep(60..120)
+        } finally {
+            session.end()
+        }
+
+        Log.alert("Exiting after one execution")
+        exitProcess(0)  // Ensure the script runs only once
+    }
 }
