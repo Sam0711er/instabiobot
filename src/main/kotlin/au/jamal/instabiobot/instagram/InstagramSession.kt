@@ -23,23 +23,23 @@ class InstagramSession() {
 
     val wait = WebDriverWait(session.browser, Duration.ofSeconds(5))
 
-    try {
-        // Wait until the popup is visible
-        val allowCookiesButton = wait.until(
+        try {
+            // Wait until the popup is visible
+            val allowCookiesButton = wait.until(
             ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(), 'Allow all cookies')]"))
-        )
+            )
 
-        allowCookiesButton.click()
-        Log.info("💚 Cookie popup dismissed.")
-        Delay.sleep(2..5)  // Give time for popup to disappear
+            allowCookiesButton.click()
+            Log.info("💚 Cookie popup dismissed.")
+            Delay.sleep(2..5)  // Give time for popup to disappear
         
-        } catch (e: TimeoutException) {
+            } catch (e: TimeoutException) {
             Log.info("💚 No cookie popup found, continuing...")
-        } catch (e: Exception) {
-            Log.alert("⚠️ Error dismissing cookie popup: ${e.message}")
-            Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
+            } catch (e: Exception) {
+                Log.alert("⚠️ Error dismissing cookie popup: ${e.message}")
+                Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
+            }
         }
-    }
 
     fun login() {
         Log.info("💚 Browser session started")
