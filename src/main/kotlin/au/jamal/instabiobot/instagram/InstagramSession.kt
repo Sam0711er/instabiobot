@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
 import java.time.LocalDateTime
+import java.util.concurrent.TimeoutException
 
 class InstagramSession() {
 
