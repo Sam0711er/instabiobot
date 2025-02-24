@@ -20,11 +20,15 @@ class InstagramSession() {
     fun dismissCookiePopup() {
         Log.info("💚 Trying to dismiss Cookie popup.")
         try {
-            session.browser.findElement(By.cssSelector("button._a9--._ap36._a9_0")).click()
+            val allowCookiesButton = session.browser.findElement(By.cssSelector("button._a9--._ap36._a9_0"))
             allowCookiesButton.click()
             Log.info("💚 Cookie popup dismissed.")
         } catch (e: NoSuchElementException) {
-          Log.info("💚 No cookie popup found, continuing...")
+            Log.info("💚 No cookie popup found, continuing...")
+            Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
+        } catch (e: Exception) {
+            Log.alert("⚠️ Error dismissing cookie popup: ${e.message}")
+            Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
         }
     }
 
