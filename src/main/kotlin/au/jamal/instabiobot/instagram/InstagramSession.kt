@@ -18,19 +18,26 @@ class InstagramSession() {
     private val twoFactorSecret = System.getenv("IG_2FA_SECRET") // 2FA Secret Key
 
     fun dismissCookiePopup() {
-        Log.info("💚 Trying to dismiss Cookie popup.")
-        try {
-            val allowCookiesButton = session.browser.findElement(By.cssSelector("button._a9--._ap36._a9_0"))
-            allowCookiesButton.click()
-            Log.info("💚 Cookie popup dismissed.")
-        } catch (e: NoSuchElementException) {
-            Log.info("💚 No cookie popup found, continuing...")
-            Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
-        } catch (e: Exception) {
-            Log.alert("⚠️ Error dismissing cookie popup: ${e.message}")
-            Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
-        }
+    Log.info("💚 Trying to dismiss Cookie popup.")
+
+    val wait = WebDriverWait(session.browser, Duration.ofSeconds(5))
+
+    try {
+        // Wait until the popup is visible
+        val allowCookiesButton = wait.until(
+            ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(), 'Allow all cookies')]"))
+        )
+
+        allowCookiesButton.click()
+        Log.info("💚 Cookie popup dismissed.")
+        Delay.sleep(2..5)  // Give time for popup to disappear
+    } catch (e: TimeoutException) {
+        Log.info("💚 No cookie popup found, continuing...")
+    } catch (e: Exception) {
+        Log.alert("⚠️ Error dismissing cookie popup: ${e.message}")
+        Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
     }
+}
 
     fun login() {
         Log.info("💚 Browser session started")
