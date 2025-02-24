@@ -56,9 +56,19 @@ class InstagramSession() {
         sendKeys(usernameInput, credentials.username)
         sendKeys(passwordInput, credentials.password)
 
+        // ✅ Check what was entered
+        Log.info("🔍 Username field value: " + usernameInput.getAttribute("value"))
+        Log.info("🔍 Password field value: " + passwordInput.getAttribute("value")
+
         // Click login button
         val loginButton = sessionInterface.getLoginElement()
-        clickButton(loginButton)
+
+        // ✅ Check if the button is disabled before clicking
+        if (!loginButton.isEnabled) {
+            Log.alert("🚨 Login button is still disabled after entering credentials!")
+        } else {
+            clickButton(loginButton)
+        }
         Delay.sleep(5..10)
 
         // Handle 2FA Prompt
@@ -131,15 +141,17 @@ class InstagramSession() {
     }
 
     private fun sendKeys(element: WebElement, key: String) {
-        try {
-            element.clear()
-            element.sendKeys(key)
-        } catch (e: Exception) {
-            Log.alert("Failed to send keys to element")
-            Log.dump(element)
-            throw IllegalStateException("Failed to send keys...", e)
-        }
+    try {
+        val wait = WebDriverWait(session.browser, Duration.ofSeconds(5))
+        wait.until(ExpectedConditions.elementToBeClickable(element))  // Ensure field is ready
+        element.clear()
+        element.sendKeys(key)
+    } catch (e: Exception) {
+        Log.alert("⚠️ Failed to send keys to element")
+        Log.dump(element)
+        throw IllegalStateException("Failed to send keys...", e)
     }
+}
 
     private fun clickButton(element: WebElement) {
         try {
