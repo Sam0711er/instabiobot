@@ -58,7 +58,7 @@ class InstagramSession() {
 
         // ✅ Check what was entered
         Log.info("🔍 Username field value: " + usernameInput.getAttribute("value"))
-        Log.info("🔍 Password field value: " + passwordInput.getAttribute("value")
+        Log.info("🔍 Password field value: " + passwordInput.getAttribute("value"))
 
         // Click login button
         val loginButton = sessionInterface.getLoginElement()
