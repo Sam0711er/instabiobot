@@ -31,13 +31,14 @@ class InstagramSession() {
         allowCookiesButton.click()
         Log.info("💚 Cookie popup dismissed.")
         Delay.sleep(2..5)  // Give time for popup to disappear
-    } catch (e: TimeoutException) {
-        Log.info("💚 No cookie popup found, continuing...")
-    } catch (e: Exception) {
-        Log.alert("⚠️ Error dismissing cookie popup: ${e.message}")
-        Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
+        
+        } catch (e: TimeoutException) {
+            Log.info("💚 No cookie popup found, continuing...")
+        } catch (e: Exception) {
+            Log.alert("⚠️ Error dismissing cookie popup: ${e.message}")
+            Log.info("📄 Current Page Source:\n" + session.browser.pageSource)
+        }
     }
-}
 
     fun login() {
         Log.info("💚 Browser session started")
